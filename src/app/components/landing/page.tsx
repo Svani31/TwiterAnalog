@@ -1,8 +1,10 @@
 "use client"
 import Button from "@/app/HOC/button";
+import { useStore } from "@/app/libs/useStore";
 import React from "react";
 
 export default function LandingPage() {
+
 
   const onClickHandler = () =>{
     console.log("FGHf")
