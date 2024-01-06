@@ -1,29 +1,38 @@
-"use client"
-import React, { createContext,useContext } from "react";
+"use client";
+import React, { createContext, useContext, useState } from "react";
 
 interface StorContextProps {
-  
+  openButtonHandler: any;
+  isRegisterOpen: boolean;
+  setIsRegisterOpen: any;
+  isSignInOpen: boolean;
+  setIsSignInOpen: any;
 }
 
-const StorContext = createContext({} as StorContextProps )
+const StorContext = createContext({} as StorContextProps);
 
-export const useStore = ():StorContextProps => useContext(StorContext)
+export const useStore = (): StorContextProps => useContext(StorContext);
 
 interface StorProps {
-    children:React.ReactNode
+  children: React.ReactNode;
 }
 
-const StorProvider = ({children}:StorProps) =>{
-    
+const StorProvider = ({ children }: StorProps) => {
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isSignInOpen, setIsSignInOpen] = useState(false);
 
-    const store = {
-      
-    }
-    return(
-        <StorContext.Provider value={store}>
-            {children}
-        </StorContext.Provider>
-    )
-}
+  const openButtonHandler = (setPatarametr: any, boolean: boolean) => {
+    setPatarametr(boolean);
+  };
 
-export default StorProvider
+  const store = {
+    openButtonHandler,
+    isRegisterOpen,
+    setIsRegisterOpen,
+    isSignInOpen,
+    setIsSignInOpen,
+  };
+  return <StorContext.Provider value={store}>{children}</StorContext.Provider>;
+};
+
+export default StorProvider;

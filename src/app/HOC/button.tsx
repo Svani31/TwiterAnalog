@@ -12,4 +12,6 @@ function Button({text,style}:ButtonProps) {
   )
 }
 
+
+
 export default Button
