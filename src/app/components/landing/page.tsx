@@ -60,8 +60,8 @@ export default function LandingPage() {
             onClick={() =>
               openButtonHandler(setIsRegisterOpen, !isRegisterOpen)
             }
-            style={{ background: "rgb(29, 155, 240)", maxWidth: "380px" }}
-            className="rounded-3xl p-2 justify-center flex cursor-pointer"
+            style={{ background: "rgb(29, 155, 240)", maxWidth: "380px"}}
+            className="rounded-3xl p-2 justify-center flex cursor-pointer "
           >
             <Button text="Create Account" style={"outline-none"} />
           </div>
