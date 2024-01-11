@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Button from "@/app/HOC/button";
 import { useStore } from "@/app/libs/useStore";
 import React, { useState } from "react";
@@ -8,11 +8,35 @@ function Register() {
     name: "",
     email: "",
     password: "",
+    image: "",
   });
   const { openButtonHandler, setIsRegisterOpen, isRegisterOpen } = useStore();
   const changeHandler = (e: any) => {
     setRegisterInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  const handelImageUpload =async (e:any) =>{
+  const file = e.target.files[0]
+  const base64 = await convertToBase64(file)
+  setRegisterInputs((prev) => ({...prev, image:base64,}))  
+  }
+  const createUser = async() =>{
+    try{
+      const createUser = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/user`,{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(registerInput)
+      })
+      console.log(createUser)
+    }catch(error){
+      throw error
+    }
+  }
+
+
+
   return (
     <div className="absolute bg-black rounded-xl">
       <div className="pl-20 pr-20 pt-3 pb-4">
@@ -35,7 +59,7 @@ function Register() {
               placeholder="Name"
             />
           </div>
-         
+
           <div className="p-3 rounded border-2 border-gray-600">
             <input
               onChange={changeHandler}
@@ -54,17 +78,35 @@ function Register() {
               placeholder="Password"
             />
           </div>
+          <input
+            onChange={(e) =>handelImageUpload(e)}
+            type="file"
+            name="image"
+            id=""
+            accept=".jpeg, .png, .jpg"
+          />
         </div>
         <span className="mt-8 flex max-w-md text-sm text-gray-600">
           This will not be shown publicly. Confirm your own age, even if this
           account is for a business, a pet, or something else.
         </span>
-        <div className="bg-white text-black font-bold flex justify-center p-2 mt-16 cursor-pointer rounded-2xl">
+        <div onClick={()=> createUser()} className="bg-white text-black font-bold flex justify-center p-2 mt-16 cursor-pointer rounded-2xl">
           <Button text="Next" style={""} />
         </div>
       </div>
+      <img src={registerInput.image} alt="" />
     </div>
   );
 }
 
 export default Register;
+
+const convertToBase64 = (file: any) => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+  });
+};
