@@ -20,7 +20,6 @@ function Register() {
   const base64 = await convertToBase64(file)
   setRegisterInputs((prev) => ({...prev, image:base64,}))  
   }
-  console.lo
   const createUser = async() =>{
     try{
       const createUser = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/user`,{
