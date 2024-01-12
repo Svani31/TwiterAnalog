@@ -2,6 +2,8 @@
 import Button from "@/app/HOC/button";
 import { useStore } from "@/app/libs/useStore";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+
 
 function Register() {
   const [registerInput, setRegisterInputs] = useState<RegisterTypes>({
@@ -10,6 +12,7 @@ function Register() {
     password: "",
     image: "",
   });
+  const route = useRouter()
   const { openButtonHandler, setIsRegisterOpen, isRegisterOpen } = useStore();
   const changeHandler = (e: any) => {
     setRegisterInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -21,18 +24,26 @@ function Register() {
   setRegisterInputs((prev) => ({...prev, image:base64,}))  
   }
   const createUser = async() =>{
-    try{
-      const createUser = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/user`,{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify(registerInput)
-      })
-      console.log(createUser)
-    }catch(error){
-      throw error
+    const {name,email,password} = registerInput
+    if(!name || !email || !password){
+      alert("Plase Fill Input fields")
+    }else{
+      try{
+        const createUser = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/user`,{
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify(registerInput)
+        })
+        if(createUser.ok){
+          route.push("components/main")
+        }
+      }catch(error){
+        throw error
+      }
     }
+    
   }
 
 
@@ -94,7 +105,6 @@ function Register() {
           <Button text="Next" style={""} />
         </div>
       </div>
-      <img src={registerInput.image} alt="" />
     </div>
   );
 }
