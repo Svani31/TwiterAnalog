@@ -19,7 +19,7 @@ const handler = NextAuth({
         const res = await prisma.user.findFirst({
           where: {
             name: credentials.name,
-            // email: credentials.email,
+            // email: credentials.email,  
             password: credentials.password,
           },
         });

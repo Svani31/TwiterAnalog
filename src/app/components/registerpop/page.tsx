@@ -3,6 +3,7 @@ import Button from "@/app/HOC/button";
 import { useStore } from "@/app/libs/useStore";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 
 function Register() {
@@ -10,19 +11,21 @@ function Register() {
     name: "",
     email: "",
     password: "",
-    image: "",
+    image: "https://www.nicepng.com/png/full/136-1366211_group-of-10-guys-login-user-icon-png.png",
   });
+
   const route = useRouter()
   const { openButtonHandler, setIsRegisterOpen, isRegisterOpen } = useStore();
   const changeHandler = (e: any) => {
     setRegisterInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handelImageUpload =async (e:any) =>{
-  const file = e.target.files[0]
-  const base64 = await convertToBase64(file)
-  setRegisterInputs((prev) => ({...prev, image:base64,}))  
-  }
+  // const handelImageUpload =async (e:any) =>{
+  // const file = e.target.files[0] 
+  // const base64 = await convertToBase64(file)
+  // setRegisterInputs((prev) => ({...prev, image:base64,}))  
+  // }
+
   const createUser = async() =>{
     const {name,email,password} = registerInput
     if(!name || !email || !password){
@@ -37,7 +40,18 @@ function Register() {
           body:JSON.stringify(registerInput)
         })
         if(createUser.ok){
-          route.push("components/main")
+          const signInToUser = await signIn("credentials",{
+            redirect:false,
+            name:name,
+            password:password
+          })
+          console.log(signInToUser,"this is ")
+          if(signInToUser?.ok){
+            route.push("components/main")
+          }else{
+            throw alert("Pleace Enter Correct Inputs")
+          }
+
         }
       }catch(error){
         throw error
@@ -89,13 +103,13 @@ function Register() {
               placeholder="Password"
             />
           </div>
-          <input
+          {/* <input
             onChange={(e) =>handelImageUpload(e)}
             type="file"
             name="image"
             id=""
             accept=".jpeg, .png, .jpg"
-          />
+          /> */}
         </div>
         <span className="mt-8 flex max-w-md text-sm text-gray-600">
           This will not be shown publicly. Confirm your own age, even if this
