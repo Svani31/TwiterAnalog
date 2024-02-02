@@ -9,16 +9,20 @@ function SignIn() {
   const { isSignInOpen, setIsSignInOpen } = useStore();
   const [userSignIn, setUserSignIn] = useState({ name: "", password: "" });
   const route = useRouter()
+
   const signInHandler = async () => {
+    console.log(userSignIn,"this is")
     const signToUser = await signIn("credentials", {
       redirect: false,
       name: userSignIn.name,
       password: userSignIn.password,
     });
+    console.log(signToUser)
     if(signToUser?.ok){
       route.push("components/main")
+    }else{
+      throw alert("Wrong")
     }
-    throw alert("Wrong")
   };
 
   const inputHandler = (e: any) => {
