@@ -7,6 +7,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import GifBoxIcon from "@mui/icons-material/GifBox";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
+
 function Post() {
   const [user, setUser] = useState<SessionProps | null>(null);
   const { data: session } = useSession();
@@ -16,9 +17,13 @@ function Post() {
     setUser(session as SessionProps | null);
   }, [session]);
 
+  const createPostHandler = () => {
+    alert("Post Created Succes1");
+  };
+
   return (
     <div className="flex">
-      <div style={{ maxWidth: "600px", height:"100vh" }} className="bg-red-500">
+      <div style={{ maxWidth: "600px", height: "100vh" }} className="">
         <div className="flex justify-around border-r border-b border-gray-600">
           <div className="p-5 text-center">For You</div>
           <div className="p-5 text-center">Following</div>
@@ -53,7 +58,7 @@ function Post() {
                 <PendingActionsIcon />
               </div>
             </div>
-            <div>
+            <div onClick={() => createPostHandler()}>
               <Button
                 text="Post"
                 style={"bg-blue-500 rounded-2xl pl-3 pr-3 pt-1 pb-1"}
@@ -61,10 +66,6 @@ function Post() {
             </div>
           </div>
         </div>
-      </div>
-      {/* aside menu */}
-      <div>
-      <input/>
       </div>
     </div>
   );

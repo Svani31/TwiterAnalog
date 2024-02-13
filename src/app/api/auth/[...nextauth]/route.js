@@ -26,6 +26,7 @@ const handler = NextAuth({
         if(!res){
           return null
         } 
+        console.log(res)
         return res
        
       },

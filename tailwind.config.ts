@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        xbackground:"#333639",
+        bluebutton:"rgb(29, 155, 240)"
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':

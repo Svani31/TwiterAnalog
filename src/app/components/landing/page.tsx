@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/app/HOC/button";
 import { useStore } from "@/app/libs/useStore";
-import React, { useState } from "react";
+import React from "react";
 import Register from "../registerpop/page";
 import SignIn from "../signinpop/page";
 
@@ -12,8 +12,9 @@ export default function LandingPage() {
     isRegisterOpen,
     isSignInOpen,
     setIsSignInOpen,
+    some
   } = useStore();
-
+  console.log(some)
   const onClickHandler = () => {
     console.log("FGHf");
   };

@@ -7,6 +7,7 @@ interface StorContextProps {
   setIsRegisterOpen: any;
   isSignInOpen: boolean;
   setIsSignInOpen: any;
+  some:any;
 }
 
 const StorContext = createContext({} as StorContextProps);
@@ -20,7 +21,7 @@ interface StorProps {
 const StorProvider = ({ children }: StorProps) => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
-
+  const some = "dfgdfg"
   const openButtonHandler = (setPatarametr: any, boolean: boolean) => {
     setPatarametr(boolean);
   };
@@ -31,6 +32,7 @@ const StorProvider = ({ children }: StorProps) => {
     setIsRegisterOpen,
     isSignInOpen,
     setIsSignInOpen,
+    some
   };
   return <StorContext.Provider value={store}>{children}</StorContext.Provider>;
 };

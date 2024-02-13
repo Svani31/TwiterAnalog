@@ -12,6 +12,7 @@ import Person2Icon from "@mui/icons-material/Person2";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Post from "./post";
+import AsideMenu from "./asideMenu";
 
 function MainPage() {
   const [user, setUser] = useState<SessionProps | null>(null);
@@ -33,8 +34,9 @@ function MainPage() {
       route.push("/components/main");
     }
   }, [session]);
+
   return (
-    <div className="bg-black flex">
+    <div className="bg-black flex w-full ">
       <div className="pl-8">
         <aside className=" max-w-72 border-r p-6 border-gray-600">
           <nav className="">
@@ -56,10 +58,10 @@ function MainPage() {
               {asideMenuText.map((textEl) => {
                 return (
                   <li
-                    className=" hover:bg-gray-600 w-fit p-2 rounded-3xl cursor-pointer"
+                    className=" hover:bg-gray-600 w-fit p-2 rounded-3xl cursor-pointer flex"
                     key={textEl.id}
                   >
-                    <span>{textEl.icon}</span> {textEl.text}
+                    <span className="mr-4">{textEl.icon}</span> {textEl.text}
                   </li>
                 );
               })}
@@ -82,9 +84,12 @@ function MainPage() {
             </div>
           </nav>
         </aside>
-      <button onClick={() => signOut()}>Sign out</button>
+        <button onClick={() => signOut()}>Sign out</button>
       </div>
-              <Post/>
+      <Post />
+      <div className="flex justify-center w-full">
+        <AsideMenu />
+      </div>
     </div>
   );
 }
