@@ -33,7 +33,7 @@ function MainPage() {
     } else {
       route.push("/components/main");
     }
-  }, [session]);
+  }, []);
 
   return (
     <div className="bg-black flex w-full ">

@@ -12,9 +12,7 @@ export default function LandingPage() {
     isRegisterOpen,
     isSignInOpen,
     setIsSignInOpen,
-    some
   } = useStore();
-  console.log(some)
   const onClickHandler = () => {
     console.log("FGHf");
   };

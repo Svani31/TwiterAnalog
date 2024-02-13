@@ -19,7 +19,7 @@ function AsideMenu() {
       setUsers(getUser);
     };
     fetchApi();
-  }, []);
+  }, [users]);
 
 
   return (
