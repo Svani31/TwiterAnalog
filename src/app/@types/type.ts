@@ -11,7 +11,7 @@ interface SessionProps {
   iat: number;
   jti: string;
   name: string;
-  picture: string;
+  image: string;
   sub: string;
 }
 
@@ -21,7 +21,15 @@ interface PostProps {
   createdAt: string;
   updateAt: string;
   userId: string;
+  user:RegisterTypes
   comment:CommentsProps[]
+  like:LikesProps[]
+}
+
+interface LikesProps {
+  id:string;
+  postId:string;
+  userId:string;
 }
 
 interface CommentsProps {
@@ -31,3 +39,4 @@ interface CommentsProps {
   userId: string;
   postId: string;
 }
+

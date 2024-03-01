@@ -14,9 +14,10 @@ import { useRouter } from "next/navigation";
 import Post from "./post";
 import AsideMenu from "./asideMenu";
 
+
 function MainPage() {
   const [user, setUser] = useState<SessionProps | null>(null);
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession<any>();
   // console.log(session)
   const route = useRouter();
   const asideMenuText = [
@@ -27,13 +28,15 @@ function MainPage() {
   ];
 
   useEffect(() => {
-    setUser(session as SessionProps | null);
-    if (!session) {
-      route.push("/");
-    } else {
+    setUser(session?.user as SessionProps | null);
+    if (session) {
       route.push("/components/main");
+    } else {
+      route.push("/");
     }
-  }, []);
+    console.log(user)
+    console.log(session)
+  }, [session]);
 
   return (
     <div className="bg-black flex w-full ">
@@ -73,7 +76,7 @@ function MainPage() {
               <Button text="Post" style={"text-white"} />
             </div>
             <div className="flex justify-between mt-20 text-center items-center hover:bg-gray-500 rounded-3xl p-2">
-              <img className=" w-10 h-10" src={user?.picture} alt="image" />
+              <img className=" w-10 h-10" src={user?.image} alt="image" />
               <div className="flex gap-4">
                 <div className="flex flex-col">
                   <span>{user?.name}</span>

@@ -33,7 +33,7 @@ function AsideMenu() {
         />
       </div>
       <div className="flex justify-center text-center item-center mt-10 flex-col bg-xbackground p-2 rounded-2xl">
-        <h1 className="text-start">Who to follow</h1>
+        <h1 className="text-start font-bold p-1">Who to follow</h1>
         {users.map((user) => {
           return (
             <div
@@ -43,7 +43,6 @@ function AsideMenu() {
               <img className="w-8 h-8" src={user.image} alt="" />
               <div className="flex flex-col">
                 <span>{user.name}</span>
-                <span>@{user.email}</span>
               </div>
               <Button
                 text="Follow"

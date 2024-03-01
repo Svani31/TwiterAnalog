@@ -33,11 +33,12 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async session({ session, token}) {
-      // Send properties to the client, like an access_token and user id from a provider.
+    async session({ session, token,user}) {
+      console.log(token)
       session.accessToken = token.accessToken
-      return token
-    }
+      session.user.id = token.sub
+      return session
+    },
   },
  
   secret:process.env.NEXTAUTH_SECRET,
