@@ -1,6 +1,10 @@
 "use client";
 import React, { createContext, useContext, useState } from "react";
-
+import {
+  createTheme,
+  PaletteOptions,
+  ThemeProvider,
+} from "@mui/material/styles";
 interface StorContextProps {
   openButtonHandler: any;
   isRegisterOpen: boolean;
@@ -16,6 +20,11 @@ export const useStore = (): StorContextProps => useContext(StorContext);
 interface StorProps {
   children: React.ReactNode;
 }
+interface customPallet extends PaletteOptions {
+  customColor?: {
+    main: string;
+  };
+}
 
 const StorProvider = ({ children }: StorProps) => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -24,6 +33,14 @@ const StorProvider = ({ children }: StorProps) => {
     setPatarametr(boolean);
   };
 
+  const theme = createTheme({
+    palette: {
+      customColor: {
+        main: "red",
+      },
+    } as customPallet,
+  });
+
   const store = {
     openButtonHandler,
     isRegisterOpen,
@@ -31,7 +48,11 @@ const StorProvider = ({ children }: StorProps) => {
     isSignInOpen,
     setIsSignInOpen,
   };
-  return <StorContext.Provider value={store}>{children}</StorContext.Provider>;
+  return (
+    <StorContext.Provider value={store}>
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    </StorContext.Provider>
+  );
 };
 
 export default StorProvider;
