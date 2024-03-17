@@ -30,3 +30,11 @@ export async function GET(){
     throw error
   }
 }
+
+
+// export async function GET(req){
+//   const {searchParams} = new URL(req.url)
+//   const id = searchParams.get("id")
+//   console.log(searchParams)
+//   console.log(id)
+// }

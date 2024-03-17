@@ -11,6 +11,8 @@ interface StorContextProps {
   setIsRegisterOpen: any;
   isSignInOpen: boolean;
   setIsSignInOpen: any;
+  isCommentSideOpen: boolean;
+  setIsCommentSideOpen: any;
 }
 
 const StorContext = createContext({} as StorContextProps);
@@ -29,6 +31,7 @@ interface customPallet extends PaletteOptions {
 const StorProvider = ({ children }: StorProps) => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
+  const [isCommentSideOpen, setIsCommentSideOpen] = useState(false);
   const openButtonHandler = (setPatarametr: any, boolean: boolean) => {
     setPatarametr(boolean);
   };
@@ -47,6 +50,8 @@ const StorProvider = ({ children }: StorProps) => {
     setIsRegisterOpen,
     isSignInOpen,
     setIsSignInOpen,
+    isCommentSideOpen,
+    setIsCommentSideOpen,
   };
   return (
     <StorContext.Provider value={store}>

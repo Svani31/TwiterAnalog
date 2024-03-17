@@ -15,8 +15,9 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import UploadSharpIcon from "@mui/icons-material/UploadSharp";
 import { useTheme } from "@mui/material"
+import Link from "next/link";
 
-function Post() {
+function ScrollingPage() {
   const [user, setUser] = useState<SessionProps | null>(null);
   const [post, setPost] = useState<PostProps[] | null>([]);
   const { data: session } = useSession();
@@ -25,7 +26,8 @@ function Post() {
   // console.log(theme.palette.customColor.main,"this is main")
 
   useEffect(() => {
-    setUser(session as SessionProps | null);
+    setUser(session?.user as SessionProps | null);
+    console.log(session,"this is session")
   }, [session]);
 
   const createPostHandler = () => {
@@ -49,10 +51,48 @@ function Post() {
     getPosts();
   }, []);
 
+  const createCommentHandler = () =>{
+    console.log("this is comments")
+  }
 
- 
+  const createRepostHandler = () =>{
+    console.log("this is repost handler")
+  }
+  
 
-  console.log(post, "this is post");
+  // try{
+  //   const createLike = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/like`,{
+  //     method:"POST",
+  //     headers:{
+  //       "Content-Type": "application/json"
+  //     },
+  //     body:JSON.stringify({
+  //       userId:user?.id,
+  //       postId:postId
+  //     })
+  //   })
+  //   console.log(createLike,"this is like")
+
+  // }catch(error){
+  //   throw error
+  // }
+
+  const createLikeHandler = async(postId:string) =>{
+    try{
+      const getLikeData = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/like`,{
+        method:"GET",
+        headers:{
+          "Content-Type":"application/json"
+        }
+      })
+      const likes = await getLikeData.json()
+      console.log(likes)
+    }catch(error){
+      throw error
+    }
+  }
+  
+
   return (
     <div className="flex flex-col">
       <div style={{ maxWidth: "600px" }} className="">
@@ -101,7 +141,8 @@ function Post() {
       </div>
       {post?.map((eachPost) => {
         return (
-          <div className="border-r border-b border-gray-600" key={eachPost.id}>
+          <div className="border-r border-b border-gray-600 cursor-pointer" key={eachPost.id}>
+            <Link href={`/components/main/${eachPost.id}`}>
             <div className="p-4">
               <div className="flex">
                 <img className="w-8 h-8" src={eachPost.user.image} alt="" />
@@ -109,15 +150,15 @@ function Post() {
               </div>
               <h1 className="flex ml-7 ">{eachPost.content}</h1>
               <div className="flex justify-between mt-4">
-                <div >
+                <div className=" cursor-pointer z-10" onClick={()=> createCommentHandler()}>
                   <ChatBubbleOutlineIcon className="fill-grayIcons" />
                   <span className="text-gray-600">{eachPost.comment.length}</span>
                 </div>
-                <div >
+                <div>
                   <SyncIcon className="fill-grayIcons" />
                   <span className="text-gray-600">25</span>
                 </div>
-                <div>
+                <div className=" cursor-pointer" onClick={(e)=> createLikeHandler(eachPost.id)}>
                   <FavoriteBorderIcon className="fill-grayIcons" />
                   <span className="text-gray-600">{eachPost.like.length}</span>
                 </div>
@@ -131,6 +172,7 @@ function Post() {
                 </div>
               </div>
             </div>
+            </Link>
           </div>
         );
       })}
@@ -138,4 +180,4 @@ function Post() {
   );
 }
 
-export default Post;
+export default ScrollingPage;

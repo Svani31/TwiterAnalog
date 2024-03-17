@@ -11,13 +11,17 @@ import EmailIcon from "@mui/icons-material/Email";
 import Person2Icon from "@mui/icons-material/Person2";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Post from "./post";
 import AsideMenu from "./asideMenu";
+import ScrollingPage from "./scrollingPage";
+import EachPost from "../eachPost/[id]/page";
+import { useStore } from "@/app/libs/useStore";
+import Post from "./[id]/page";
 
 
 function MainPage() {
   const [user, setUser] = useState<SessionProps | null>(null);
   const { data: session, status } = useSession<any>();
+  const {isCommentSideOpen,setIsCommentSideOpen} =useStore()
   // console.log(session)
   const route = useRouter();
   const asideMenuText = [
@@ -89,7 +93,9 @@ function MainPage() {
         </aside>
         <button onClick={() => signOut()}>Sign out</button>
       </div>
-      <Post />
+      <ScrollingPage />
+      <Post/>
+      {/* <EachPost/> */}
       <div className="flex justify-center w-full">
         <AsideMenu />
       </div>

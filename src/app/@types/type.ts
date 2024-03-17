@@ -13,6 +13,7 @@ interface SessionProps {
   name: string;
   image: string;
   sub: string;
+  id:string;
 }
 
 interface PostProps {
