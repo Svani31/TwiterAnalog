@@ -16,6 +16,7 @@ import ScrollingPage from "./scrollingPage";
 import EachPost from "../eachPost/[id]/page";
 import { useStore } from "@/app/libs/useStore";
 import Post from "./[id]/page";
+import HeaderList from "./headerList";
 
 
 function MainPage() {
@@ -23,29 +24,30 @@ function MainPage() {
   const { data: session, status } = useSession<any>();
   const {isCommentSideOpen,setIsCommentSideOpen} =useStore()
   // console.log(session)
-  const route = useRouter();
-  const asideMenuText = [
-    { icon: <HomeIcon />, text: "Home", id: 0 },
-    { icon: <NotificationsIcon />, text: "Notifications", id: 1 },
-    { icon: <EmailIcon />, text: "Messages", id: 2 },
-    { icon: <Person2Icon />, text: "Profile", id: 3 },
-  ];
+  // const route = useRouter();
+  // const asideMenuText = [
+  //   { icon: <HomeIcon />, text: "Home", id: 0 },
+  //   { icon: <NotificationsIcon />, text: "Notifications", id: 1 },
+  //   { icon: <EmailIcon />, text: "Messages", id: 2 },
+  //   { icon: <Person2Icon />, text: "Profile", id: 3 },
+  // ];
 
-  useEffect(() => {
-    setUser(session?.user as SessionProps | null);
-    if (session) {
-      route.push("/components/main");
-    } else {
-      route.push("/");
-    }
-    console.log(user)
-    console.log(session)
-  }, [session]);
+  // useEffect(() => {
+  //   setUser(session?.user as SessionProps | null);
+  //   if (session) {
+  //     route.push("/components/main");
+  //   } else {
+  //     route.push("/");
+  //   }
+  //   console.log(user)
+  //   console.log(session)
+  // }, [session]);
 
   return (
     <div className="bg-black flex w-full ">
       <div className="pl-8">
-        <aside className=" max-w-72 border-r p-6 border-gray-600">
+        <HeaderList/>
+        {/* <aside className=" max-w-72 border-r p-6 border-gray-600">
           <nav className="">
             <ul className="flex flex-col gap-8 m-2 text-2xl">
               <div>
@@ -90,11 +92,11 @@ function MainPage() {
               <span>...</span>
             </div>
           </nav>
-        </aside>
+        </aside> */}
         <button onClick={() => signOut()}>Sign out</button>
       </div>
       <ScrollingPage />
-      <Post/>
+      {/* <Post/> */}
       {/* <EachPost/> */}
       <div className="flex justify-center w-full">
         <AsideMenu />

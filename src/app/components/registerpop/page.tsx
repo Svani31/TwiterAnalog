@@ -11,7 +11,7 @@ function Register() {
     name: "",
     email: "",
     password: "",
-    image: "https://www.nicepng.com/png/full/136-1366211_group-of-10-guys-login-user-icon-png.png",
+    image: "https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg",
   });
 
   const route = useRouter()
