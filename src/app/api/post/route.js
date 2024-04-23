@@ -32,9 +32,3 @@ export async function GET(){
 }
 
 
-// export async function GET(req){
-//   const {searchParams} = new URL(req.url)
-//   const id = searchParams.get("id")
-//   console.log(searchParams)
-//   console.log(id)
-// }
