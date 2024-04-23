@@ -16,6 +16,7 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import UploadSharpIcon from "@mui/icons-material/UploadSharp";
 import { useTheme } from "@mui/material";
 import Link from "next/link";
+import "next-auth"
 
 function ScrollingPage() {
   const [postInput, setPostInput] = useState<string>();
@@ -23,6 +24,7 @@ function ScrollingPage() {
   const [post, setPost] = useState<PostProps[] | null>([]);
   const { data: session } = useSession();
 
+  
   const theme = useTheme();
   // console.log(theme.palette.customColor.main,"this is main")
 
@@ -105,7 +107,7 @@ function ScrollingPage() {
           },
           body: JSON.stringify({
             content:postInput,
-            userId:session?.user.id
+            userId:session?.user?.id
           }),
         }
       );
