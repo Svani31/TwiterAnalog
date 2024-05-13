@@ -33,7 +33,7 @@ function HeaderList() {
       }, [session]);
 
   return (
-    <aside className=" max-w-72 border-r p-6 border-gray-600">
+    <aside className=" max-w-72  p-6 border-gray-600">
     <nav className="">
       <ul className="flex flex-col gap-8 m-2 text-2xl">
         <div>

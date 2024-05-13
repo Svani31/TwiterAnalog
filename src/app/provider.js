@@ -7,10 +7,3 @@ export const Provider = ({children}) =>{
 }
 
 
-// const signInHandler = async() =>{
-//     const signToUser = await signIn("credentials",{
-//       name:userSignIn.name,
-//       // password:userSignIn.password,
-//     })
-//     console.log(signToUser)
-//   }

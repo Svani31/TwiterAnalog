@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "/src/app/utils/prismadb";
+import { pusherService } from "../../libs/pusher";
 
 export async function POST(req) {
   try {
@@ -10,6 +11,9 @@ export async function POST(req) {
         userId,
       },
     });
+
+    await pusherService.trigger(userId,"createpost",createPost)
+    console.log(createPost)
     return NextResponse.json(createPost);
   } catch (err) {
     throw err;
