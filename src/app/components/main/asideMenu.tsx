@@ -19,11 +19,11 @@ function AsideMenu() {
       setUsers(getUser);
     };
     fetchApi();
-  }, [users]);
+  }, []);
 
 
   return (
-    <div className="m-4 flex flex-col ">
+    <div className="m-4 flex flex-col fixed">
       <div className="pt-2 pb-2 pl-5 pr-5 rounded-2xl bg-xbackground">
         <SearchIcon />
         <input

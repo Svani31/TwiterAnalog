@@ -33,9 +33,6 @@ function ScrollingPage() {
     console.log(session, "this is session");
   }, [session]);
 
-  // const createPostHandler = () => {
-  //   alert("Post Created Succes1");
-  // };
 
   useEffect(() => {
     const getPosts = async () => {
@@ -174,7 +171,7 @@ function ScrollingPage() {
             <Link href={`/components/main/${eachPost.id}`}>
               <div className="p-4">
                 <div className="flex">
-                  <img className="w-8 h-8" src={eachPost.user.image} alt="" />
+                  <img className="w-8 h-8 rounded-2xl" src={eachPost.user.image} alt="" />
                   <h2 className="ml-2">{eachPost.user.name}</h2>
                 </div>
                 <h1 className="flex ml-7 ">{eachPost.content}</h1>
@@ -220,3 +217,5 @@ function ScrollingPage() {
 }
 
 export default ScrollingPage;
+
+

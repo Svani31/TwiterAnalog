@@ -6,7 +6,7 @@ import Person2Icon from "@mui/icons-material/Person2";
 import Link from 'next/link';
 import Button from '@/app/HOC/button';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 
 function HeaderList() {
@@ -33,10 +33,11 @@ function HeaderList() {
       }, [session]);
 
   return (
-    <aside className=" max-w-72 border-r p-6 border-gray-600">
-    <nav className="">
+    <div style={{width:"300px"}} className=''>
+      <aside className="">
+    <nav className="fixed">
       <ul className="flex flex-col gap-8 m-2 text-2xl">
-        <div>
+        <div className=''>
           <Link href={"/components/main"}>
             <svg
               style={{ width: "40px", height: "40px" }}
@@ -77,8 +78,10 @@ function HeaderList() {
         </div>
         <span>...</span>
       </div>
+      <button onClick={() => signOut()}>Sign out</button>
     </nav>
   </aside>
+    </div>
   )
 }
 
