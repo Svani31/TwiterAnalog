@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useEffect, useState } from "react";
@@ -16,37 +17,55 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import UploadSharpIcon from "@mui/icons-material/UploadSharp";
 import { useTheme } from "@mui/material";
 import Link from "next/link";
-import "next-auth"
+import { pusherClient } from "@/app/utils/pusher";
+
+interface SessionProps {
+  id: string;
+  image?: string;
+}
+
+interface PostProps {
+  id: string;
+  userId: string;
+  content: string;
+  user: {
+    image: string;
+    name: string;
+  };
+  comment: any[];
+  like: any[];
+}
 
 function ScrollingPage() {
-  const [postInput, setPostInput] = useState<string>();
+  const [postInput, setPostInput] = useState<string>("");
   const [user, setUser] = useState<SessionProps | null>(null);
-  const [post, setPost] = useState<PostProps[] | null>([]);
+  const [post, setPost] = useState<PostProps[]>([]);
   const { data: session } = useSession();
-
-  
-  const theme = useTheme();
-  // console.log(theme.palette.customColor.main,"this is main")
-
+  const [userId,setUserId] = useState()
   useEffect(() => {
-    setUser(session?.user as SessionProps | null);
+    if (session?.user) {
+      setUser(session.user as SessionProps);
+    }
     console.log(session, "this is session");
   }, [session]);
 
-
   useEffect(() => {
     const getPosts = async () => {
-      const getData = await fetch(
-        `${process.env.NEXT_PUBLIC_API_KEY}/api/post`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await getData.json();
-      setPost(data);
+      try {
+        const getData = await fetch(
+          `${process.env.NEXT_PUBLIC_API_KEY}/api/post`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await getData.json();
+        setPost(data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
     };
     getPosts();
   }, []);
@@ -58,23 +77,6 @@ function ScrollingPage() {
   const createRepostHandler = () => {
     console.log("this is repost handler");
   };
-
-  // try{
-  //   const createLike = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/like`,{
-  //     method:"POST",
-  //     headers:{
-  //       "Content-Type": "application/json"
-  //     },
-  //     body:JSON.stringify({
-  //       userId:user?.id,
-  //       postId:postId
-  //     })
-  //   })
-  //   console.log(createLike,"this is like")
-
-  // }catch(error){
-  //   throw error
-  // }
 
   const createLikeHandler = async (postId: string) => {
     try {
@@ -90,9 +92,10 @@ function ScrollingPage() {
       const likes = await getLikeData.json();
       console.log(likes);
     } catch (error) {
-      throw error;
+      console.error("Error fetching likes:", error);
     }
   };
+
   const createPostHandler = async () => {
     try {
       const createPost = await fetch(
@@ -103,17 +106,35 @@ function ScrollingPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            content:postInput,
-            userId:session?.user?.id
+            content: postInput,
+            userId: session?.user?.id,
           }),
         }
       );
-      const getPost = await createPost.json()
-      setPost(getPost)
+      const newPost = await createPost.json();
+      setPost((prev) => [...prev, newPost]);
+      setPostInput("")
+      setUserId(newPost.userId)
     } catch (error) {
-      throw error;
+      console.error("Error creating post:", error);
     }
   };
+
+  useEffect(() => {
+      if (userId) {
+        pusherClient.subscribe(userId);
+        const handleIncomingPost = (newPost: PostProps) => {
+          setPost((prev) => [...prev, newPost]);
+        };
+        pusherClient.bind("creating-post", handleIncomingPost);
+
+        return () => {
+          pusherClient.unbind("creating-post", handleIncomingPost);
+          pusherClient.unsubscribe(userId);
+        };
+      }
+    
+  }, []);
 
   return (
     <div className="flex flex-col">
@@ -135,6 +156,7 @@ function ScrollingPage() {
             <input
               placeholder="What is Happening?"
               className=" bg-transparent outline-none p-8"
+              value={postInput}
               onChange={(e) => setPostInput(e.target.value)}
             />
           </div>
@@ -162,60 +184,56 @@ function ScrollingPage() {
           </div>
         </div>
       </div>
-      {post?.map((eachPost) => {
-        return (
-          <div
-            className="border-r border-b border-gray-600 cursor-pointer"
-            key={eachPost.id}
-          >
-            <Link href={`/components/main/${eachPost.id}`}>
-              <div className="p-4">
-                <div className="flex">
-                  <img className="w-8 h-8 rounded-2xl" src={eachPost.user.image} alt="" />
-                  <h2 className="ml-2">{eachPost.user.name}</h2>
+      {post.map((eachPost) => (
+        <div
+          className="border-r border-b border-gray-600 cursor-pointer"
+          key={eachPost.id}
+        >
+          <Link href={`/components/main/${eachPost.id}`}>
+            <div className="p-4">
+              <div className="flex">
+                <img className="w-8 h-8 rounded-2xl" src={eachPost.user.image} alt="" />
+                <h2 className="ml-2">{eachPost.user.name}</h2>
+              </div>
+              <h1 className="flex ml-7 ">{eachPost.content}</h1>
+              <div className="flex justify-between mt-4">
+                <div
+                  className=" cursor-pointer z-10"
+                  onClick={() => createCommentHandler()}
+                >
+                  <ChatBubbleOutlineIcon className="fill-grayIcons" />
+                  <span className="text-gray-600">
+                    {eachPost.comment.length}
+                  </span>
                 </div>
-                <h1 className="flex ml-7 ">{eachPost.content}</h1>
-                <div className="flex justify-between mt-4">
-                  <div
-                    className=" cursor-pointer z-10"
-                    onClick={() => createCommentHandler()}
-                  >
-                    <ChatBubbleOutlineIcon className="fill-grayIcons" />
-                    <span className="text-gray-600">
-                      {eachPost.comment.length}
-                    </span>
-                  </div>
-                  <div>
-                    <SyncIcon className="fill-grayIcons" />
-                    <span className="text-gray-600">25</span>
-                  </div>
-                  <div
-                    className=" cursor-pointer"
-                    onClick={(e) => createLikeHandler(eachPost.id)}
-                  >
-                    <FavoriteBorderIcon className="fill-grayIcons" />
-                    <span className="text-gray-600">
-                      {eachPost.like.length}
-                    </span>
-                  </div>
-                  <div>
-                    <BarChartIcon className="fill-grayIcons" />
-                    <span className="text-gray-600">70</span>
-                  </div>
-                  <div>
-                    <UploadSharpIcon className="fill-grayIcons" />
-                    <BookmarkBorderIcon className="fill-grayIcons" />
-                  </div>
+                <div>
+                  <SyncIcon className="fill-grayIcons" />
+                  <span className="text-gray-600">25</span>
+                </div>
+                <div
+                  className=" cursor-pointer"
+                  onClick={(e) => createLikeHandler(eachPost.id)}
+                >
+                  <FavoriteBorderIcon className="fill-grayIcons" />
+                  <span className="text-gray-600">
+                    {eachPost.like.length}
+                  </span>
+                </div>
+                <div>
+                  <BarChartIcon className="fill-grayIcons" />
+                  <span className="text-gray-600">70</span>
+                </div>
+                <div>
+                  <UploadSharpIcon className="fill-grayIcons" />
+                  <BookmarkBorderIcon className="fill-grayIcons" />
                 </div>
               </div>
-            </Link>
-          </div>
-        );
-      })}
+            </div>
+          </Link>
+        </div>
+      ))}
     </div>
   );
 }
 
 export default ScrollingPage;
-
-

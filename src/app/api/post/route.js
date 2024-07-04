@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "/src/app/utils/prismadb";
-
+import {pusherServer} from "@/app/utils/pusher"
 export async function POST(req) {
   try {
     const { content, userId } = await req.json();
@@ -9,7 +9,13 @@ export async function POST(req) {
         content,
         userId,
       },
+      include:{
+        user:true,
+        comment:true,
+        like:true
+      }
     });
+    pusherServer.trigger(userId,"creating-post",createPost)
     return NextResponse.json(createPost);
   } catch (err) {
     throw err;
