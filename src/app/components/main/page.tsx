@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 import AsideMenu from "./asideMenu";
 import ScrollingPage from "./scrollingPage";
 import HeaderList from "./headerList";
-
 function MainPage() {
 
 
@@ -15,7 +14,7 @@ function MainPage() {
       <div className="pl-8 border-r border-gray-600">
         <HeaderList/>
       </div>
-      <ScrollingPage />
+      <ScrollingPage/>
       {/* <Post/> */}
       {/* <EachPost/> */}
       <div className="flex justify-center w-full">

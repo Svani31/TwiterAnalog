@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Button from "@/app/HOC/button";
-// importing mui icons
 import ImageIcon from "@mui/icons-material/Image";
 import GifBoxIcon from "@mui/icons-material/GifBox";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
@@ -15,10 +15,11 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import UploadSharpIcon from "@mui/icons-material/UploadSharp";
-import { useTheme } from "@mui/material";
 import Link from "next/link";
 import { pusherClient } from "@/app/utils/pusher";
-
+import { GetPosts } from "@/app/libs/fetchPosts";
+import { GetServerSideProps } from "next";
+import { QueryClient, useQueries, useQuery } from "@tanstack/react-query";
 interface SessionProps {
   id: string;
   image?: string;
@@ -36,39 +37,31 @@ interface PostProps {
   like: any[];
 }
 
-function ScrollingPage() {
+const ScrollingPage = () => {
   const [postInput, setPostInput] = useState<string>("");
   const [user, setUser] = useState<SessionProps | null>(null);
   const [post, setPost] = useState<PostProps[]>([]);
   const { data: session } = useSession();
-  const [userId,setUserId] = useState()
+  const [userId, setUserId] = useState<string | undefined>();
+  // const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
     if (session?.user) {
       setUser(session.user as SessionProps);
     }
-    console.log(session, "this is session");
   }, [session]);
 
-  useEffect(() => {
-    const getPosts = async () => {
-      try {
-        const getData = await fetch(
-          `${process.env.NEXT_PUBLIC_API_KEY}/api/post`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const data = await getData.json();
-        setPost(data);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      }
-    };
-    getPosts();
-  }, []);
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["Posts"],
+    queryFn: GetPosts,
+    refetchOnMount:false,
+  });
+
+  if (isLoading)
+    <div>
+      <h1>isLoading</h1>
+    </div>;
+
 
   const createCommentHandler = () => {
     console.log("this is comments");
@@ -78,6 +71,22 @@ function ScrollingPage() {
     console.log("this is repost handler");
   };
 
+  // useEffect(()=>{
+  //   const fetchData = async ()=>{
+  //     const data = await GetPosts()
+  //     setIsLoading(false)
+  //     setPost(data)
+  //   }
+  //   fetchData()
+  // },[])
+
+
+  useEffect(()=>{
+    if(data){
+      setPost(data)
+    }
+  },[data])
+  
   const createLikeHandler = async (postId: string) => {
     try {
       const getLikeData = await fetch(
@@ -113,28 +122,27 @@ function ScrollingPage() {
       );
       const newPost = await createPost.json();
       setPost((prev) => [...prev, newPost]);
-      setPostInput("")
-      setUserId(newPost.userId)
+      setPostInput("");
+      setUserId(newPost.userId);
     } catch (error) {
       console.error("Error creating post:", error);
     }
   };
 
   useEffect(() => {
-      if (userId) {
-        pusherClient.subscribe(userId);
-        const handleIncomingPost = (newPost: PostProps) => {
-          setPost((prev) => [...prev, newPost]);
-        };
-        pusherClient.bind("creating-post", handleIncomingPost);
+    if (userId) {
+      pusherClient.subscribe(userId);
+      const handleIncomingPost = (newPost: PostProps) => {
+        setPost((prev) => [...prev, newPost]);
+      };
+      pusherClient.bind("creating-post", handleIncomingPost);
 
-        return () => {
-          pusherClient.unbind("creating-post", handleIncomingPost);
-          pusherClient.unsubscribe(userId);
-        };
-      }
-    
-  }, []);
+      return () => {
+        pusherClient.unbind("creating-post", handleIncomingPost);
+        pusherClient.unsubscribe(userId);
+      };
+    }
+  }, [userId]);
 
   return (
     <div className="flex flex-col">
@@ -145,17 +153,13 @@ function ScrollingPage() {
         </div>
         <div
           style={{ width: "600px" }}
-          className="flex flex-col  border-r border-b border-gray-600 "
+          className="flex flex-col border-r border-b border-gray-600 "
         >
           <div className="flex ">
-            <img
-              className=" w-10 h-10 m-5"
-              src={user?.image}
-              alt="user Image"
-            />
+            <img className="w-10 h-10 m-5" src={user?.image} alt="user Image" />
             <input
               placeholder="What is Happening?"
-              className=" bg-transparent outline-none p-8"
+              className="bg-transparent outline-none p-8"
               value={postInput}
               onChange={(e) => setPostInput(e.target.value)}
             />
@@ -184,7 +188,7 @@ function ScrollingPage() {
           </div>
         </div>
       </div>
-      {post.map((eachPost) => (
+      {post.map((eachPost: PostProps) => (
         <div
           className="border-r border-b border-gray-600 cursor-pointer"
           key={eachPost.id}
@@ -192,13 +196,17 @@ function ScrollingPage() {
           <Link href={`/components/main/${eachPost.id}`}>
             <div className="p-4">
               <div className="flex">
-                <img className="w-8 h-8 rounded-2xl" src={eachPost.user.image} alt="" />
+                <img
+                  className="w-8 h-8 rounded-2xl"
+                  src={eachPost.user.image}
+                  alt=""
+                />
                 <h2 className="ml-2">{eachPost.user.name}</h2>
               </div>
-              <h1 className="flex ml-7 ">{eachPost.content}</h1>
+              <h1 className="flex ml-7">{eachPost.content}</h1>
               <div className="flex justify-between mt-4">
                 <div
-                  className=" cursor-pointer z-10"
+                  className="cursor-pointer z-10"
                   onClick={() => createCommentHandler()}
                 >
                   <ChatBubbleOutlineIcon className="fill-grayIcons" />
@@ -211,13 +219,11 @@ function ScrollingPage() {
                   <span className="text-gray-600">25</span>
                 </div>
                 <div
-                  className=" cursor-pointer"
+                  className="cursor-pointer"
                   onClick={(e) => createLikeHandler(eachPost.id)}
                 >
                   <FavoriteBorderIcon className="fill-grayIcons" />
-                  <span className="text-gray-600">
-                    {eachPost.like.length}
-                  </span>
+                  <span className="text-gray-600">{eachPost.like.length}</span>
                 </div>
                 <div>
                   <BarChartIcon className="fill-grayIcons" />
@@ -234,6 +240,6 @@ function ScrollingPage() {
       ))}
     </div>
   );
-}
+};
 
 export default ScrollingPage;
