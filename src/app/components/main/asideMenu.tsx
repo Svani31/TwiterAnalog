@@ -25,7 +25,7 @@ function AsideMenu() {
   return (
     <div className="m-4 flex flex-col fixed">
       <div className="pt-2 pb-2 pl-5 pr-5 rounded-2xl bg-xbackground">
-        <SearchIcon />
+        <SearchIcon className="bg-transparent" />
         <input
           className="bg-transparent outline-none font-xbackground"
           type="text"
@@ -33,16 +33,16 @@ function AsideMenu() {
         />
       </div>
       <div className="flex justify-center text-center item-center mt-10 flex-col bg-xbackground p-2 rounded-2xl">
-        <h1 className="text-start font-bold p-1">Who to follow</h1>
+        <h1 className="text-start font-bold p-1 bg-transparent">Who to follow</h1>
         {users.map((user) => {
           return (
             <div
               key={user.id}
-              className="flex gap-3 mt-6 text-center justify-between "
+              className="flex gap-3 mt-6 text-center justify-between bg-transparent "
             >
-              <img className="w-8 h-8" src={user.image} alt="" />
-              <div className="flex flex-col">
-                <span>{user.name}</span>
+              <img className="w-8 h-8 bg-transparent" src={user.image} alt="" />
+              <div className="flex flex-col bg-transparent">
+                <span className="bg-transparent">{user.name}</span>
               </div>
               <Button
                 text="Follow"

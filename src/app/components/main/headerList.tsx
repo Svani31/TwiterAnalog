@@ -69,11 +69,11 @@ function HeaderList() {
         <Button text="Post" style={"text-white"} />
       </div>
       <div className="flex justify-between mt-20 text-center items-center hover:bg-gray-500 rounded-3xl p-2">
-        <img className=" w-10 h-10 rounded-3xl" src={user?.image} alt="image" />
-        <div className="flex gap-4">
-          <div className="flex flex-col">
-            <span>{user?.name}</span>
-            <span>@{user?.email}</span>
+        <img className=" w-10 h-10 rounded-3xl " src={user?.image} alt="image" />
+        <div className="flex gap-4 ">
+          <div className="flex flex-col ">
+            <span className=''>{user?.name}</span>
+            <span className=''>@{user?.email}</span>
           </div>
         </div>
         <span>...</span>
