@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/app/HOC/button";
-import { useStore } from "@/app/libs/useStore";
+import { useStore } from "@/app/utils/myContext";
 import React from "react";
 import Register from "../registerpop/page";
 import SignIn from "../signinpop/page";

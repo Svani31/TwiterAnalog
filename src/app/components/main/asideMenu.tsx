@@ -3,9 +3,13 @@
 import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@/app/HOC/button";
+import UserChat from "../chat/chat";
+import { useStore } from "@/app/utils/myContext";
 
 function AsideMenu() {
   const [users, setUsers] = useState<RegisterTypes[]>([]);
+  const {setUsersId} = useStore()
+
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -39,6 +43,7 @@ function AsideMenu() {
             <div
               key={user.id}
               className="flex gap-3 mt-6 text-center justify-between bg-transparent "
+              onClick={()=> setUsersId(user.id)}
             >
               <img className="w-8 h-8 bg-transparent" src={user.image} alt="" />
               <div className="flex flex-col bg-transparent">
@@ -52,6 +57,7 @@ function AsideMenu() {
           );
         })}
       </div>
+      <div className=""><UserChat/></div>
     </div>
   );
 }

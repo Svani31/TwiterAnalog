@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import AsideMenu from "./asideMenu";
 import ScrollingPage from "./scrollingPage";
 import HeaderList from "./headerList";
+import UserChat from "../chat/chat";
 function MainPage() {
 
 

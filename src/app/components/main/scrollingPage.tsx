@@ -43,7 +43,6 @@ const ScrollingPage = () => {
   const [post, setPost] = useState<PostProps[]>([]);
   const { data: session } = useSession();
   const [userId, setUserId] = useState<string | undefined>();
-  // const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (session?.user) {
@@ -71,21 +70,10 @@ const ScrollingPage = () => {
     console.log("this is repost handler");
   };
 
-  // useEffect(()=>{
-  //   const fetchData = async ()=>{
-  //     const data = await GetPosts()
-  //     setIsLoading(false)
-  //     setPost(data)
-  //   }
-  //   fetchData()
-  // },[])
 
 
-  useEffect(()=>{
-    if(data){
-      setPost(data)
-    }
-  },[data])
+
+
   
   const createLikeHandler = async (postId: string) => {
     try {
@@ -129,7 +117,12 @@ const ScrollingPage = () => {
     }
   };
 
+
+
   useEffect(() => {
+    if(data){
+      setPost(data)
+    }
     if (userId) {
       pusherClient.subscribe(userId);
       const handleIncomingPost = (newPost: PostProps) => {
@@ -142,8 +135,9 @@ const ScrollingPage = () => {
         pusherClient.unsubscribe(userId);
       };
     }
-  }, [userId]);
+  }, [userId,data]);
 
+  
   return (
     <div className="flex flex-col">
       <div style={{ maxWidth: "600px" }} className="">

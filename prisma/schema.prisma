@@ -11,15 +11,18 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  email     String     @unique
-  name      String
-  password  String
-  image     String?
-  post      Post[]
-  comment   Comment[]
-  followers Follower[]
-  like      Like[]
+  id             String     @id @default(auto()) @map("_id") @db.ObjectId
+  email          String     @unique
+  name           String
+  password       String
+  image          String?
+  post           Post[]
+  comment        Comment[]
+  followers      Follower[]
+  like           Like[]
+  message        Message[]
+  myChat         Chat[]     @relation("myChat")
+  secondUserChat Chat[]     @relation("secondUserChat")
 }
 
 model Follower {
@@ -55,4 +58,24 @@ model Comment {
   postId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
   post      Post     @relation(fields: [postId], references: [id])
+}
+
+model Chat {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  myUserId       String    @db.ObjectId
+  reciverUserId  String    @db.ObjectId
+  message        Message[]
+  myChat         User      @relation(name: "myChat", fields: [myUserId], references: [id])
+  secondUserChat User      @relation(name: "secondUserChat", fields: [reciverUserId], references: [id])
+}
+
+model Message {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  context   String
+  image     String?
+  userId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+  chatId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  chat      Chat     @relation(fields: [chatId], references: [id])
 }

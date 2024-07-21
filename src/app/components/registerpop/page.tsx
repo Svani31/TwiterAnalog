@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/app/HOC/button";
-import { useStore } from "@/app/libs/useStore";
+import { useStore } from "@/app/utils/myContext";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
