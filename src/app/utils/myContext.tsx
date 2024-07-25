@@ -2,7 +2,7 @@
 import React, { createContext, useContext, ReactNode, useState } from "react";
 
 interface ContextProps {
-    usersId:[] | undefined
+    usersId:string | undefined
     setUsersId:any
     openButtonHandler: any;
   isRegisterOpen: boolean;

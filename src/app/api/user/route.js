@@ -23,7 +23,8 @@ export async function GET() {
     const allUser = await prisma.user.findMany({
       include:{
         post:true,
-        myChat:true
+        myChat:true,
+        secondUserChat:true
       }
     });
     return NextResponse.json(allUser);

@@ -28,7 +28,7 @@ model User {
 model Follower {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   userId String @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Post {
@@ -37,7 +37,7 @@ model Post {
   createdAt DateTime  @default(now())
   updateAt  DateTime  @updatedAt
   userId    String    @db.ObjectId
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   comment   Comment[]
   like      Like[]
 }
@@ -46,8 +46,8 @@ model Like {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   postId String @db.ObjectId
   userId String @db.ObjectId
-  post   Post   @relation(fields: [postId], references: [id])
-  user   User   @relation(fields: [userId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
@@ -56,8 +56,8 @@ model Comment {
   createdAt DateTime @default(now())
   userId    String   @db.ObjectId
   postId    String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
-  post      Post     @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model Chat {
@@ -65,8 +65,8 @@ model Chat {
   myUserId       String    @db.ObjectId
   reciverUserId  String    @db.ObjectId
   message        Message[]
-  myChat         User      @relation(name: "myChat", fields: [myUserId], references: [id])
-  secondUserChat User      @relation(name: "secondUserChat", fields: [reciverUserId], references: [id])
+  myChat         User      @relation(name: "myChat", fields: [myUserId], references: [id], onDelete: Cascade)
+  secondUserChat User      @relation(name: "secondUserChat", fields: [reciverUserId], references: [id], onDelete: Cascade)
 }
 
 model Message {
@@ -76,6 +76,6 @@ model Message {
   userId    String   @db.ObjectId
   createdAt DateTime @default(now())
   chatId    String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
-  chat      Chat     @relation(fields: [chatId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
 }

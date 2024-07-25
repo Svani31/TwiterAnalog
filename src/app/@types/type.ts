@@ -4,6 +4,8 @@ interface RegisterTypes {
   email: string;
   password: string;
   image: any;
+  chat?:ChatProps
+  message?:MessageProps[]
 }
 interface SessionProps {
   email: string;
@@ -41,3 +43,18 @@ interface CommentsProps {
   postId: string;
 }
 
+interface ChatProps {
+  id:string;
+  myUserId:string;
+  reciverUserId:string
+  message:MessageProps[]
+}
+
+interface MessageProps {
+  id:string;
+  context:string;
+  image:string;
+  userId:string;
+  createdAt:string;
+  chatId:string
+}
