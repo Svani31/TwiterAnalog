@@ -4,7 +4,7 @@ interface RegisterTypes {
   email: string;
   password: string;
   image: any;
-  chat?:ChatProps
+  myChat?:ChatProps
   message?:MessageProps[]
 }
 interface SessionProps {

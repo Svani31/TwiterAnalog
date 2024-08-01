@@ -12,7 +12,7 @@ function MainPage() {
 
   return (
     <div className="bg-black flex w-full ">
-      <div className="pl-8 border-r border-gray-600">
+      <div className="border-r border-gray-600">
         <HeaderList/>
       </div>
       <ScrollingPage/>
