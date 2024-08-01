@@ -6,11 +6,13 @@ import Button from "@/app/HOC/button";
 import UserChat from "../chat/chat";
 import { useStore } from "@/app/utils/myContext";
 import EmailIcon from '@mui/icons-material/Email';
+import { useSession } from "next-auth/react";
 
 function AsideMenu() {
   const [users, setUsers] = useState<RegisterTypes[]>([]);
   const {setUsersId} = useStore()
 
+  const {data:session} = useSession()
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -21,10 +23,11 @@ function AsideMenu() {
         }
       );
       const getUser = await respons.json();
-      setUsers(getUser);
+      const filterUser = getUser.filter((eachUser:RegisterTypes)=> eachUser.id !== session?.user.id)
+      setUsers(filterUser);
     };
     fetchApi();
-  }, []);
+  }, [session]);
 
   const createOrOpenChatHandler = (reciverUserId:string | undefined) =>{
     setUsersId(reciverUserId)

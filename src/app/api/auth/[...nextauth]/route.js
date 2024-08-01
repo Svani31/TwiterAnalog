@@ -34,7 +34,6 @@ const handler = NextAuth({
   ],
   callbacks: {
     async session({ session, token,user}) {
-      console.log(token)
       session.accessToken = token.accessToken
       session.user.id = token.sub
       return session

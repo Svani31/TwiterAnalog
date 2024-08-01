@@ -33,7 +33,7 @@ function HeaderList() {
       }, [session]);
 
   return (
-    <div style={{width:"300px"}} className=''>
+    <div style={{width:"300px"}} className='pl-8'>
       <aside className="">
     <nav className="fixed">
       <ul className="flex flex-col gap-8 m-2 text-2xl">
