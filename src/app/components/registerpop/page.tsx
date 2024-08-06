@@ -32,7 +32,7 @@ function Register() {
       alert("Plase Fill Input fields")
     }else{
       try{
-        const createUser = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/user`,{
+        const createUser = await fetch(`/api/user`,{
           method:"POST",
           headers:{
             "Content-Type":"application/json"

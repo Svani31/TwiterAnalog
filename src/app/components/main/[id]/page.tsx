@@ -32,7 +32,7 @@ function Post() {
   useEffect(() => {
     const fetchData = async () => {
       const fetchPost = await fetch(
-        `${process.env.NEXT_PUBLIC_API_KEY}/api/post/${id}`,
+        `/api/post/${id}`,
         {
           method: "GET",
         }
@@ -54,7 +54,7 @@ function Post() {
 
   const handelCreateComment = async () =>{
     try{
-      const createMessage = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/comment`,{
+      const createMessage = await fetch(`/api/comment`,{
         method:"POST",
         headers:{
           "Content-Type":"application/json"
@@ -71,11 +71,11 @@ function Post() {
     }
   }
 
-  useEffect(()=>{
-    const fetchData = async()=>{
-      const respons = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}`)
-    }
-  },[])
+  // useEffect(()=>{
+  //   const fetchData = async()=>{
+  //     const respons = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}`)
+  //   }
+  // },[])
 
   return (
     <div className="bg-black flex">
