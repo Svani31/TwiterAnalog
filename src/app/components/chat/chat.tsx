@@ -103,7 +103,13 @@ const UserChat = () => {
         })
       })
       const pusherMessage = await respons.json()
-      setIncommingMessage((prev:any) => [...prev,pusherMessage])
+      setIncommingMessage((prev:MessageProps[] | undefined) => {
+        if(Array.isArray(prev)){
+          return [...prev,pusherMessage]
+        }else{
+          return [pusherMessage]
+        }
+      })
       setMessage("")
     }catch(error){
       throw error
@@ -153,9 +159,9 @@ const UserChat = () => {
               return(
                 <div key={eachMessage.id}>
                   {eachMessage.userId == session?.user.id ? (<div className=" flex justify-end mt-4">
-              <p className="bg-blue-500 p-2 rounded-2xl">{eachMessage.context}</p>{" "}
+              <p className="bg-red-500 p-2 rounded-2xl">{eachMessage.context}</p>{" "}
             </div>) : (<div className="flex  justify-start mt-4">
-              <p className="bg-red-500 p-2 rounded-2xl">{eachMessage.context}</p>
+              <p className="bg-blue-500 p-2 rounded-2xl">{eachMessage.context}</p>
             </div>)}
                 </div>
               )

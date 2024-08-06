@@ -14,8 +14,12 @@ export async function GET(req,{params}){
             },
             include:{
                 user:true,
-                comment:true,
-                like:true
+                like:true,
+                comment:{
+                    include:{
+                        user:true
+                    }
+                }
             }
         })
         console.log(findPost)
