@@ -11,8 +11,12 @@ export async function POST(req) {
       },
       include:{
         user:true,
-        comment:true,
-        like:true
+        like:true,
+        comment:{
+          include:{
+            user:true
+          }
+        }
       }
     });
     pusherServer.trigger(userId,"creating-post",createPost)
@@ -22,19 +26,19 @@ export async function POST(req) {
   }
 }
 
-// export async function GET(){
-//   try{
-//     const getAllPost = await prisma.post.findMany({
-//       include:{
-//         comment:true,
-//         user:true,
-//         like:true,
-//       }
-//     })
-//     return NextResponse.json(getAllPost)
-//   }catch(error){
-//     throw error
-//   }
-// }
+export async function GET(){
+  try{
+    const getAllPost = await prisma.post.findMany({
+      include:{
+        comment:true,
+        user:true,
+        like:true,
+      }
+    })
+    return NextResponse.json(getAllPost)
+  }catch(error){
+    throw error
+  }
+}
 
 

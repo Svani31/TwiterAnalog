@@ -19,16 +19,16 @@ export async function POST(req){
 
 
 
-export async function GET(){
-    try{
-        const getComments = await prisma.comment.findMany({
-            include:{
-                user:true
-            }
-        })
-        console.log(getComments,"this is comments")
-        return NextResponse.json(getComments)
-    }catch(error){
-        throw error
-    }
-}
+// export async function GET(){
+//     try{
+//         const getComments = await prisma.comment.findMany({
+//             include:{
+//                 user:true
+//             }
+//         })
+//         console.log(getComments,"this is comments")
+//         return NextResponse.json(getComments)
+//     }catch(error){
+//         throw error
+//     }
+// }

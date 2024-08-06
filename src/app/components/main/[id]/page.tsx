@@ -78,7 +78,10 @@ function Post() {
   },[])
 
   return (
-    <div className="bg-black">
+    <div className="bg-black flex">
+      <div className=" border-gray-600">
+      <HeaderList/>
+      </div>
       <div className="flex justify-center">
         <div
           style={{ width: "600px" }}
@@ -212,6 +215,9 @@ function Post() {
                 </div>
               </div>
           </div>
+        </div>
+        <div className="">
+      <AsideMenu/>
         </div>
       </div>
     </div>
