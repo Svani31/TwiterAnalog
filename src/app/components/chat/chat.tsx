@@ -54,7 +54,7 @@ const UserChat = () => {
   useEffect(()=>{
     if(usersId){
       const fetchUser = async()=>{
-        const respons = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/getUser`,{
+        const respons = await fetch(`/api/getUser`,{
           method:"POST",
           headers:{
             "Content-Type":"application/json"
@@ -90,7 +90,7 @@ const UserChat = () => {
     e.preventDefault()
     if(message?.length < 0) return
     try{
-      const respons = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/message`,{
+      const respons = await fetch(`/api/message`,{
         method:"POST",
         headers:{
           "Content-Type":"application/json"

@@ -17,7 +17,7 @@ function AsideMenu() {
   useEffect(() => {
     const fetchApi = async () => {
       const respons = await fetch(
-        `${process.env.NEXT_PUBLIC_API_KEY}/api/user`,
+        `/api/user`,
         {
           method: "GET",
         }
