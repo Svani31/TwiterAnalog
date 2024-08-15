@@ -9,7 +9,6 @@ import HeaderList from "./headerList";
 import UserChat from "../chat/chat";
 function MainPage() {
 
-
   return (
     <div className="bg-black flex w-full ">
       <div className="border-r border-gray-600">

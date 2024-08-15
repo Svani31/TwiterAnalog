@@ -1,9 +1,10 @@
 "use client";
 import Button from "@/app/HOC/button";
 import { useStore } from "@/app/utils/myContext";
-import React from "react";
+import React, { useEffect } from "react";
 import Register from "../registerpop/page";
 import SignIn from "../signinpop/page";
+import { useSession } from "next-auth/react";
 
 export default function LandingPage() {
   const {
@@ -16,6 +17,11 @@ export default function LandingPage() {
   const onClickHandler = () => {
     console.log("FGHf");
   };
+
+  const {data:session} = useSession()
+  useEffect(()=>{
+    console.log(session)
+  },[session])
 
   return (
     <div

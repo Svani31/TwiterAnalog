@@ -9,6 +9,9 @@ export async function POST(body){
         const findUser = await prisma.user.findFirst({
             where:{
                 id:userId
+            },
+            include:{
+                post:true
             }
         })
         return NextResponse.json(findUser)

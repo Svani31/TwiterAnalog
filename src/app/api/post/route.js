@@ -19,6 +19,7 @@ export async function POST(req) {
         }
       }
     });
+    console.log(createPost)
     pusherServer.trigger(userId,"creating-post",createPost)
     return NextResponse.json(createPost);
   } catch (err) {

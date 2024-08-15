@@ -23,13 +23,7 @@ function HeaderList() {
 
       useEffect(() => {
         setUser(session?.user as SessionProps | null);
-        // if (session) {
-        //   route.push("/components/main");
-        // } else {
-        //   route.push("/");
-        // }
-        // console.log(user)
-        // console.log(session)
+      //  if(!session) route.push("/")
       }, [session]);
 
   return (
@@ -57,7 +51,9 @@ function HeaderList() {
               className=" hover:bg-gray-600 w-fit p-2 rounded-3xl cursor-pointer flex"
               key={textEl.id}
             >
+              <Link href={`${textEl.text}`}>
               <span className="mr-4">{textEl.icon}</span> {textEl.text}
+              </Link>
             </li>
           );
         })}

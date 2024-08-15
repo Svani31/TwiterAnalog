@@ -23,6 +23,8 @@ export default function Home() {
     loadScript();
   }, []);
 
+
+
   return (
     <div className="">
       <LandingPage />

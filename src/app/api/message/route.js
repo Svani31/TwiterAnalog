@@ -13,9 +13,11 @@ export async function POST(req) {
         chatId,
         userId,
       },
+      include:{
+        chat:true
+      }
     });
-
-    pusherServer.trigger("message",respons)
+    pusherServer.trigger(chatId,"message",respons)
     return NextResponse.json(respons)
   } catch (error) {
     throw error;

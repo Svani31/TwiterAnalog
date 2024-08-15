@@ -24,6 +24,7 @@ const UserChat = () => {
   const [isUserChat,setIsUserChat] = useState<RegisterTypes>()
   const [incommingMessage,setIncommingMessage] = useState<MessageProps[] | undefined>([])
   const [message,setMessage] = useState<string>("")
+  const [messageId,setMessageId] = useState<string>("")
 
   const { usersId,setUsersId } = useStore();
   const { data: session } = useSession();
@@ -51,6 +52,33 @@ const UserChat = () => {
     enabled: !!myUserId && !!reciverUserId,
   });
 
+
+  const submitMessageHandler = async (e:FormEvent<HTMLFormElement>) =>{
+    e.preventDefault()
+    if(message?.length < 0) return
+    try{
+      const respons = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/message`,{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          context:message,
+          image:"",
+          chatId:data?.id,
+          userId:reciverUserId
+        })
+      })
+      const pusherMessage = await respons.json()
+      setMessageId(pusherMessage.chat.id)
+      console.log(pusherMessage)
+      setMessage("")
+    }catch(error){
+      throw error
+    } 
+  }
+  
+
   useEffect(()=>{
     if(usersId){
       const fetchUser = async()=>{
@@ -72,50 +100,22 @@ const UserChat = () => {
 
   useEffect(()=>{
     if(data){
+      console.log(data)
       setIncommingMessage(data.message)
     }
-    pusherClient.subscribe("message")
+    if(!messageId) return
+    console.log(messageId)
+    pusherClient.subscribe(messageId)
     const handleIncommingMessage = (newMessage:any) =>{
       setIncommingMessage((prev:any) => [...prev,newMessage])
     }
     pusherClient.bind("message",handleIncommingMessage)
     return ()=>{
-      pusherClient.unsubscribe("message")
+      pusherClient.unsubscribe(messageId)
       pusherClient.unbind("message",handleIncommingMessage)
     }
-  },[usersId,data])
+  },[messageId,data,data?.myChat?.id])
 
-
-  const submitMessageHandler = async (e:FormEvent<HTMLFormElement>) =>{
-    e.preventDefault()
-    if(message?.length < 0) return
-    try{
-      const respons = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/message`,{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-          context:message,
-          image:"",
-          chatId:data?.id,
-          userId:reciverUserId
-        })
-      })
-      const pusherMessage = await respons.json()
-      setIncommingMessage((prev:MessageProps[] | undefined) => {
-        if(Array.isArray(prev)){
-          return [...prev,pusherMessage]
-        }else{
-          return [pusherMessage]
-        }
-      })
-      setMessage("")
-    }catch(error){
-      throw error
-    } 
-  }
-  
 
   return (
     <div

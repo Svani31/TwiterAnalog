@@ -50,7 +50,7 @@ const ScrollingPage = () => {
     }
   }, [session]);
 
-  const { data, isError, isLoading } = useQuery({
+  const { data, isError, isLoading } = useQuery<PostProps[]>({
     queryKey: ["Posts"],
     queryFn: GetPosts,
     refetchOnMount:false,
@@ -109,15 +109,13 @@ const ScrollingPage = () => {
         }
       );
       const newPost = await createPost.json();
-      setPost((prev) => [...prev, newPost]);
+      console.log(newPost)
       setPostInput("");
-      setUserId(newPost.userId);
+      setUserId(newPost.user.id);
     } catch (error) {
-      console.error("Error creating post:", error);
+      alert("Cant Create Post")
     }
   };
-
-
 
   useEffect(() => {
     if(data){
@@ -126,6 +124,7 @@ const ScrollingPage = () => {
     if (userId) {
       pusherClient.subscribe(userId);
       const handleIncomingPost = (newPost: PostProps) => {
+        console.log(newPost)
         setPost((prev) => [...prev, newPost]);
       };
       pusherClient.bind("creating-post", handleIncomingPost);
@@ -137,7 +136,9 @@ const ScrollingPage = () => {
     }
   }, [userId,data]);
 
-  
+
+
+
   return (
     <div className="flex flex-col">
       <div style={{ maxWidth: "600px" }} className="">

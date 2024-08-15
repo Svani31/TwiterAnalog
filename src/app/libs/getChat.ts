@@ -1,3 +1,4 @@
+
 export const getChat = async (myUserId: string, reciverUserId: string) => {
   try {
     const respons = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/chat`, {
