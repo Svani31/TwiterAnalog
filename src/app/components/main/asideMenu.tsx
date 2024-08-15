@@ -16,6 +16,7 @@ function AsideMenu() {
 
   const { data: session } = useSession();
 
+<<<<<<< HEAD
   const { data, isLoading, isError } = useQuery<RegisterTypes[] | undefined>({
     queryKey: ["asideMenu",session?.user.id],
     queryFn:()=>{
@@ -26,6 +27,22 @@ function AsideMenu() {
     enabled: !!session?.user.id,
     refetchOnMount:false
   });
+=======
+  useEffect(() => {
+    const fetchApi = async () => {
+      const respons = await fetch(
+        `/api/user`,
+        {
+          method: "GET",
+        }
+      );
+      const getUser = await respons.json();
+      const filterUser = getUser.filter((eachUser:RegisterTypes)=> eachUser.id !== session?.user.id)
+      setUsers(filterUser);
+    };
+    fetchApi();
+  }, [session]);
+>>>>>>> 59661986d61c6e6fa85f0f9180a4f75ffef0d054
 
   console.log(data)
 

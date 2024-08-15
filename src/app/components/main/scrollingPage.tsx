@@ -78,7 +78,7 @@ const ScrollingPage = () => {
   const createLikeHandler = async (postId: string) => {
     try {
       const getLikeData = await fetch(
-        `${process.env.NEXT_PUBLIC_API_KEY}/api/like`,
+        `/api/like`,
         {
           method: "GET",
           headers: {
@@ -96,7 +96,7 @@ const ScrollingPage = () => {
   const createPostHandler = async () => {
     try {
       const createPost = await fetch(
-        `${process.env.NEXT_PUBLIC_API_KEY}/api/post`,
+        `/api/post`,
         {
           method: "POST",
           headers: {

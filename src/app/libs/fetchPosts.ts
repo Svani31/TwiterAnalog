@@ -1,7 +1,7 @@
 
 export const GetPosts = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/api/post`, {
+      const response = await fetch(`/api/post`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
