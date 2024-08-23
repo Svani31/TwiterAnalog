@@ -28,6 +28,7 @@ export default function Home() {
   return (
     <div className="">
       <LandingPage />
+      {/* <UploadingImage/> */}
     </div>
   );
 }

@@ -117,40 +117,6 @@ const UserChat = () => {
   },[messageId,data,data?.myChat?.id])
 
 
-<<<<<<< HEAD
-=======
-  const submitMessageHandler = async (e:FormEvent<HTMLFormElement>) =>{
-    e.preventDefault()
-    if(message?.length < 0) return
-    try{
-      const respons = await fetch(`/api/message`,{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-          context:message,
-          image:"",
-          chatId:data?.id,
-          userId:reciverUserId
-        })
-      })
-      const pusherMessage = await respons.json()
-      setIncommingMessage((prev:MessageProps[] | undefined) => {
-        if(Array.isArray(prev)){
-          return [...prev,pusherMessage]
-        }else{
-          return [pusherMessage]
-        }
-      })
-      setMessage("")
-    }catch(error){
-      throw error
-    } 
-  }
-  
-
->>>>>>> 59661986d61c6e6fa85f0f9180a4f75ffef0d054
   return (
     <div
       style={
