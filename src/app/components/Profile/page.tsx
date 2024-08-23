@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 // mui icons
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
+import { CldUploadButton, CloudinaryUploadWidgetResults } from "next-cloudinary";
 
 interface MediaBarType {
   Post:string,
@@ -38,11 +39,26 @@ const Profile = () => {
         }
       );
       const user = await respons.json();
-      console.log(user)
       setIdUser(user);
     };
     fetchData();
   }, [session]);
+
+
+  
+  const uploadImageHandler = async(result:CloudinaryUploadWidgetResults) =>{
+    const session = await getSession()
+    try{
+      const respons = await fetch("/api/uploadImage",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({id:session?.user.id,image:result.info?.url})
+      })
+      
+    }catch(error){
+      throw error
+    }
+  }
 
   return (
     <div className="flex">
@@ -75,9 +91,12 @@ const Profile = () => {
             alt=""
           />
         </div>
-        <div className="mt-16 ml-4">
-          <div>
-            <h1>{idUser?.name}</h1>
+        <div className="mt-16 ml-4 mr-4">
+          <div className="flex justify-between">
+            <h1 className="p-2">{idUser?.name}</h1>
+            <h1 className="bg-blue-500 p-2 rounded-2xl">
+            <CldUploadButton uploadPreset="twitter-analog" onSuccess={(result) => uploadImageHandler(result)} />
+            </h1>
           </div>
           <div className="flex mt-6">
             <CalendarMonthIcon className="fill-gray-600" />{" "}
