@@ -27,7 +27,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchData = async () => {
       const respons = await fetch(
-        `${process.env.NEXT_PUBLIC_API_KEY}/api/getUser`,
+        `/api/getUser`,
         {
           method: "POST",
           headers: {
