@@ -46,7 +46,7 @@ const Profile = () => {
 
 
   
-  const uploadImageHandler = async(result:CloudinaryUploadWidgetResults) =>{
+  const uploadImageHandler = async(result:any) =>{
     const session = await getSession()
     try{
       const respons = await fetch("/api/uploadImage",{
