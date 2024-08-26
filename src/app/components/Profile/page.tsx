@@ -49,7 +49,7 @@ const Profile = () => {
   const uploadImageHandler = async(result:any) =>{
     const session = await getSession()
     try{
-      const respons = await fetch("api/uploadImage",{
+      const respons = await fetch("/api/uploadImage",{
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({id:session?.user.id,image:result.info?.url})
