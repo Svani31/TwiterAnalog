@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 "use client";
-
+import { CldUploadButton } from 'next-cloudinary';
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Button from "@/app/HOC/button";
@@ -162,7 +162,9 @@ const ScrollingPage = () => {
           <div className="flex justify-between ml-5 mr-5 mb-5">
             <div className="flex gap-3 ml-6">
               <div>
+    <CldUploadButton uploadPreset='twitter-analog' onSuccess={(result)=> console.log(result,"this is result")}>
                 <ImageIcon className="fill-blueIcons" />
+    </CldUploadButton>
               </div>
               <div>
                 <GifBoxIcon className="fill-blueIcons" />
