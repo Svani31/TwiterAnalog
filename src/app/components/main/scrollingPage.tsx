@@ -152,7 +152,7 @@ const ScrollingPage = () => {
               <div>
                 <CldUploadButton
                   uploadPreset="twitter-analog"
-                  onSuccess={(result) => setImage(result.info?.url)}
+                  onSuccess={(result:any) => setImage(result.info?.url)}
                 >
                   <ImageIcon className="fill-blueIcons" />
                 </CldUploadButton>
