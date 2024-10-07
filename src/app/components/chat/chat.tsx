@@ -202,7 +202,7 @@ const UserChat = () => {
               ) : (
                 <>
                   <MicIcon className=" fill-gray-800 hover:fill-white cursor-pointer" />
-                  <CldUploadButton uploadPreset="twitter-analog" className="flex" onSuccess={(result)=> setImage(result.info?.url)}>
+                  <CldUploadButton uploadPreset="twitter-analog" className="flex" onSuccess={(result:any)=> setImage(result.info?.url)}>
                     <BrokenImageIcon className=" fill-gray-800 hover:fill-white" />
                   </CldUploadButton>
                   <GifBoxIcon className=" fill-gray-800 hover:fill-white cursor-pointer" />
