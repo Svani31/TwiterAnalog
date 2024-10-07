@@ -34,7 +34,7 @@ function AsideMenu() {
   };
 
   return (
-    <div className="m-4 flex flex-col fixed">
+    <div className="m-4 flex flex-col fixed md:w-[200px] xl:w-[300px]">
       <div className="pt-2 pb-2 pl-5 pr-5 rounded-2xl bg-xbackground">
         <SearchIcon className="bg-transparent" />
         <input
@@ -67,7 +67,7 @@ function AsideMenu() {
               />
               <Button
                 text="Follow"
-                style={"bg-white text-black text-s  p-1 rounded-2xl"}
+                style={"bg-white text-black text-s  p-1 rounded-2xl md:hidden lg:block"}
               />
             </div>
           );

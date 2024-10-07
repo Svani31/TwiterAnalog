@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens:{
+        md:"800px",
+        lg:"1200px",
+      },
       colors: {
         xbackground:"#202327",
         bluebutton:"rgb(29, 155, 240)",

@@ -103,6 +103,7 @@ function Post() {
             </div>
             <div className="mt-2">
               <h1>{selectedPost?.content}</h1>
+              <img style={{display:"flex",justifyContent:"center",width:"400px",alignItems:"center",borderRadius:"20px"}} alt="dfgdf" src={selectedPost?.image}/>
               <h1 className="text-xs text-gray-400">{data}</h1>
             </div>
             <div className=" border-t border-b border-gray-600 mt-3">

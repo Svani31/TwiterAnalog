@@ -27,14 +27,14 @@ function HeaderList() {
       }, [session]);
 
   return (
-    <div style={{width:"300px"}} className='pl-8 '>
+    <div className='pl-8 sm:hidden md:hidden md:w-[300px] lg:block  lg:w-[300px] xl:w-[400px]'>
       <aside className="">
     <nav className="fixed">
       <ul className="flex flex-col gap-8 m-2 text-2xl">
         <div className=''>
           <Link href={"/components/main"}>
             <svg
-              style={{ width: "40px", height: "40px" }}
+              className='w-10 h-10'
               viewBox="0 0 30 30"
             >
               <path
