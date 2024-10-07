@@ -3,10 +3,11 @@ import prisma from "/src/app/utils/prismadb";
 import {pusherServer} from "@/app/utils/pusher"
 export async function POST(req) {
   try {
-    const { content, userId } = await req.json();
+    const { content, userId,image } = await req.json();
     const createPost = await prisma.post.create({
       data: {
         content,
+        image:image,
         userId,
       },
       include:{

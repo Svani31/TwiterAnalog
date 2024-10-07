@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { CldUploadButton } from 'next-cloudinary';
+import { CldUploadButton } from "next-cloudinary";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Button from "@/app/HOC/button";
@@ -26,6 +26,7 @@ interface SessionProps {
 }
 
 interface PostProps {
+  image: string | undefined;
   id: string;
   userId: string;
   content: string;
@@ -39,6 +40,7 @@ interface PostProps {
 
 const ScrollingPage = () => {
   const [postInput, setPostInput] = useState<string>("");
+  const [image, setImage] = useState<any>("");
   const [user, setUser] = useState<SessionProps | null>(null);
   const [post, setPost] = useState<PostProps[]>([]);
   const { data: session } = useSession();
@@ -53,14 +55,13 @@ const ScrollingPage = () => {
   const { data, isError, isLoading } = useQuery<PostProps[]>({
     queryKey: ["Posts"],
     queryFn: GetPosts,
-    refetchOnMount:false,
+    refetchOnMount: false,
   });
 
   if (isLoading)
     <div>
       <h1>isLoading</h1>
     </div>;
-
 
   const createCommentHandler = () => {
     console.log("this is comments");
@@ -70,22 +71,14 @@ const ScrollingPage = () => {
     console.log("this is repost handler");
   };
 
-
-
-
-
-  
   const createLikeHandler = async (postId: string) => {
     try {
-      const getLikeData = await fetch(
-        `/api/like`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const getLikeData = await fetch(`/api/like`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const likes = await getLikeData.json();
       console.log(likes);
     } catch (error) {
@@ -95,36 +88,34 @@ const ScrollingPage = () => {
 
   const createPostHandler = async () => {
     try {
-      const createPost = await fetch(
-        `/api/post`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            content: postInput,
-            userId: session?.user?.id,
-          }),
-        }
-      );
+      const createPost = await fetch(`/api/post`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: postInput,
+          userId: session?.user?.id,
+          image: image,
+        }),
+      });
       const newPost = await createPost.json();
-      console.log(newPost)
+      console.log(newPost);
       setPostInput("");
       setUserId(newPost.user.id);
     } catch (error) {
-      alert("Cant Create Post")
+      alert("Cant Create Post");
     }
   };
 
   useEffect(() => {
-    if(data){
-      setPost(data)
+    if (data) {
+      setPost(data);
     }
     if (userId) {
       pusherClient.subscribe(userId);
       const handleIncomingPost = (newPost: PostProps) => {
-        console.log(newPost)
+        console.log(newPost);
         setPost((prev) => [...prev, newPost]);
       };
       pusherClient.bind("creating-post", handleIncomingPost);
@@ -134,10 +125,7 @@ const ScrollingPage = () => {
         pusherClient.unsubscribe(userId);
       };
     }
-  }, [userId,data]);
-
-
-
+  }, [userId, data]);
 
   return (
     <div className="flex flex-col">
@@ -147,8 +135,8 @@ const ScrollingPage = () => {
           <div className="p-5 text-center">Following</div>
         </div>
         <div
-          style={{ width: "600px" }}
-          className="flex flex-col border-r border-b border-gray-600 "
+         
+          className="flex flex-col border-r border-b border-gray-600 w-[600px] "
         >
           <div className="flex ">
             <img className="w-10 h-10 m-5" src={user?.image} alt="user Image" />
@@ -162,9 +150,12 @@ const ScrollingPage = () => {
           <div className="flex justify-between ml-5 mr-5 mb-5">
             <div className="flex gap-3 ml-6">
               <div>
-    <CldUploadButton uploadPreset='twitter-analog' onSuccess={(result)=> console.log(result,"this is result")}>
-                <ImageIcon className="fill-blueIcons" />
-    </CldUploadButton>
+                <CldUploadButton
+                  uploadPreset="twitter-analog"
+                  onSuccess={(result) => setImage(result.info?.url)}
+                >
+                  <ImageIcon className="fill-blueIcons" />
+                </CldUploadButton>
               </div>
               <div>
                 <GifBoxIcon className="fill-blueIcons" />
@@ -200,7 +191,20 @@ const ScrollingPage = () => {
                 />
                 <h2 className="ml-2">{eachPost.user.name}</h2>
               </div>
-              <h1 className="flex ml-7">{eachPost.content}</h1>
+              <h1 className="flex ml-7 mt-6">{eachPost.content}</h1>
+              {eachPost.image ? (
+                <div className="flex justify-center mt-5">
+                  <img
+                    style={{ width: "400px" }}
+                    className="flex rounded-xl"
+                    src={eachPost.image}
+                    alt=""
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+
               <div className="flex justify-between mt-4">
                 <div
                   className="cursor-pointer z-10"

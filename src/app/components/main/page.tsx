@@ -10,14 +10,14 @@ import UserChat from "../chat/chat";
 function MainPage() {
 
   return (
-    <div className="bg-black flex w-full ">
+    <div className="bg-black flex w-full justify-between ">
       <div className="border-r border-gray-600">
         <HeaderList/>
       </div>
       <ScrollingPage/>
       {/* <Post/> */}
       {/* <EachPost/> */}
-      <div className="flex justify-center w-full">
+      <div className="flex justify-between w-full">
         <AsideMenu />
       </div>
     </div>

@@ -22,6 +22,7 @@ interface PostProps {
   id: string;
   content: string;
   createdAt: string;
+  image:string;
   updateAt: string;
   userId: string;
   user:RegisterTypes
