@@ -1,36 +1,39 @@
 "use client"
+import { Users } from "@/app/libs/eachUser";
+import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 
 function Message() {
 
-  useEffect(()=>{
-    const fetchUsers = async() =>{
-      const respons = await fetch("/api/user")
-      const users = await respons.json()
-      console.log(users)
-    }
-    fetchUsers()
-  },[])
-
+const {isError,isLoading,data} = useQuery<RegisterTypes[]>({
+  queryKey:["Users"],
+  queryFn:Users,
+  refetchOnMount:false
+})
 
   return (
     <div className="flex justify-between p-3">
       <div className="flex flex-col">
-        <div className=" p-4">
-          <div className="flex">
+        {data?.map((eachData)=>{
+          return(
+            <div key={eachData.id} className="p-4 hover:bg-slate-500 rounded-2xl mt-8">
+          <div className="flex gap-3">
             <img
-              src=""
+              src={eachData.image}
               alt="Image"
               className="w-12 h-12 rounded-full bg-red-500"
             />
-            <h1 className="flex flex-col">
-              Users Name <span className="font-thin text-xs">Last Message</span>
+            <h1 className="flex flex-col text-xl">
+              {eachData.name}
+               <span className="font-thin text-xs">Last Message</span>
             </h1>
           </div>
         </div>
+          )
+        })}
       </div>
 
-      <div className="w-[1500px]  bg-slate-500 p-2 rounded-2xl">
+      <div className="w-[1600px]  bg-slate-500 p-2 rounded-2xl">
         <div className="flex items-center gap-3">
           <img
             src=""
