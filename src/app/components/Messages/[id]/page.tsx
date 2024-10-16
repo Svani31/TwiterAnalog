@@ -11,60 +11,58 @@ interface IdProps {
   id: string | undefined;
 }
 const Chat = () => {
-  const [id, setId] = useState("");
-  const [messageId,setMessageId] = useState("")
-  const [inputValue,setInputValue] = useState("")
-  const [messages,setMessages] = useState<MessageProps[] | undefined >([])
-  
+  const [userId, setUserId] = useState("");
+  const [messageId, setMessageId] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  const [messages, setMessages] = useState<MessageProps[] | undefined>([]);
+
+  const {id} = useParams()
+  console.log(id)
+
   const { status, data: session } = useSession();
 
   const { data, isError, isLoading } = useQuery<ChatProps | undefined>({
     queryKey: ["Chat", session?.user.id],
     queryFn: () => {
-      if (session?.user.id && id) {
-        return getChat(session.user.id, id);
+      if (session?.user.id && userId) {
+        return getChat(session.user.id, userId);
       }
     },
-    enabled: !!session?.user.id && !!id,
+    enabled: !!session?.user.id && !!userId,
     refetchOnMount: false,
   });
 
   useEffect(() => {
     const searchId = window.location.search;
     const id = searchId.slice(4);
-    setId(id);
+    setUserId(id);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [window.location.search]);
 
-
-
-
-
-
-  const submitHandler = async(e:any) =>{
-    e.preventDefault()
-   try{
-    const fetchMessage = await fetch("/api/message",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
-      },
-      body:JSON.stringify({
-        context:inputValue,
-        image:"",
-        chatId:data?.id,
-        userId:session?.user.id,
-      })
-    })
-    const gettingMessage = await fetchMessage.json()
-    setMessageId(gettingMessage.id)
-    console.log(fetchMessage)
-    setInputValue("")
-   }catch(error){
-    throw error
-  }
-  }
+  const submitHandler = async (e: any) => {
+    e.preventDefault();
+    try {
+      const fetchMessage = await fetch("/api/message", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          context: inputValue,
+          image: "",
+          chatId: data?.id,
+          userId: session?.user.id,
+        }),
+      });
+      const gettingMessage = await fetchMessage.json();
+      setMessageId(gettingMessage.id);
+      console.log(fetchMessage);
+      setInputValue("");
+    } catch (error) {
+      throw error;
+    }
+  };
 
   // useEffect(()=>{
   //   if(data){
@@ -114,24 +112,34 @@ const Chat = () => {
                     }
                   >
                     {eachMessage.context}{" "}
-                    {eachMessage.image ? ( <img src={eachMessage.image} alt="" className="w-30 h-28" />) : ""}
+                    {eachMessage.image ? (
+                      <img
+                        src={eachMessage.image}
+                        alt=""
+                        className="w-30 h-28"
+                      />
+                    ) : (
+                      ""
+                    )}
                   </h1>
                 </div>
-             
               </div>
             );
           })}
         </div>
         <div className="flex justify-center text-center items-center gap-3">
-          <form onSubmit={(e)=> submitHandler(e)} className="flex text-center items-center gap-4">
-          <h1>Logo</h1>
-          <input
-            type="Whats In Your Mind?"
-            className="bg-slate-700 p-3 w-[500px] outline-none rounded-3xl"
-            onChange={(e)=> setInputValue(e.target.value)}
-            value={inputValue}
-          />
-          <button type="submit">Logo</button>
+          <form
+            onSubmit={(e) => submitHandler(e)}
+            className="flex text-center items-center gap-4"
+          >
+            <h1>Logo</h1>
+            <input
+              type="Whats In Your Mind?"
+              className="bg-slate-700 p-3 w-[500px] outline-none rounded-3xl"
+              onChange={(e) => setInputValue(e.target.value)}
+              value={inputValue}
+            />
+            <button type="submit">Logo</button>
           </form>
         </div>
       </div>
