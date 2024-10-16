@@ -11,13 +11,11 @@ function SignIn() {
   const route = useRouter()
 
   const signInHandler = async () => {
-    console.log(userSignIn,"this is")
     const signToUser = await signIn("credentials", {
       redirect: false,
       name: userSignIn.name,
       password: userSignIn.password,
     });
-    console.log(signToUser)
     if(signToUser?.ok){
       route.push("components/main")
     }else{
@@ -27,7 +25,6 @@ function SignIn() {
 
   const inputHandler = (e: any) => {
     setUserSignIn((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    console.log(userSignIn);
   };
 
   return (

@@ -64,11 +64,9 @@ const ScrollingPage = () => {
     </div>;
 
   const createCommentHandler = () => {
-    console.log("this is comments");
   };
 
   const createRepostHandler = () => {
-    console.log("this is repost handler");
   };
 
   const createLikeHandler = async (postId: string) => {
@@ -115,7 +113,6 @@ const ScrollingPage = () => {
     if (userId) {
       pusherClient.subscribe(userId);
       const handleIncomingPost = (newPost: PostProps) => {
-        console.log(newPost);
         setPost((prev) => [...prev, newPost]);
       };
       pusherClient.bind("creating-post", handleIncomingPost);

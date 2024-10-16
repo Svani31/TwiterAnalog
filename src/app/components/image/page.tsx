@@ -15,13 +15,11 @@ const UploadingImage = () =>{
                 }
             })
             const images = await respons.json()
-            console.log(images)
         }
         fetchImage()
     },[])
 
     const uploadImageHandler = (result:any)=>{
-        console.log(result.info?.path)
     }
 
 

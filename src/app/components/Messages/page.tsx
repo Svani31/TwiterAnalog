@@ -1,12 +1,10 @@
 "use client"
 import { Users } from "@/app/libs/eachUser";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import Chat from "./chat";
+import Chat from "./[id]/chat";
 
 function Message() {
-
   const [userId,setUserId] = useState<string | undefined>("")
   
   const {isError,isLoading,data} = useQuery<RegisterTypes[]>({
@@ -17,6 +15,8 @@ function Message() {
   
   const getUserIdHandler = (id:string | undefined) =>{
       setUserId(id)
+      const newUrl = `${window.location.pathname}?id=${id}`;
+      window.history.pushState({ path: newUrl }, '', newUrl);
   }
 
   return (
@@ -41,7 +41,7 @@ function Message() {
         })}
       </div>
 
-        <Chat id={userId}/>
+        <Chat/>
     </div>
   );
 }

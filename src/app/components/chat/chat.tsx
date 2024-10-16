@@ -77,7 +77,6 @@ const UserChat = () => {
       );
       const pusherMessage = await respons.json();
       setMessageId(pusherMessage.chat.id);
-      console.log(pusherMessage);
       setMessage("");
     } catch (error) {
       throw error;
@@ -105,11 +104,9 @@ const UserChat = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setIncommingMessage(data.message);
     }
     if (!messageId) return;
-    console.log(messageId);
     pusherClient.subscribe(messageId);
     const handleIncommingMessage = (newMessage: any) => {
       setIncommingMessage((prev: any) => [...prev, newMessage]);

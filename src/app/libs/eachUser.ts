@@ -10,7 +10,6 @@ export const Users = async()=>{
                 }
             })
             const users = await respons.json()
-            console.log(users)
             return users
 
     }catch(error){
