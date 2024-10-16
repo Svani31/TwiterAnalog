@@ -1,7 +1,7 @@
 "use client"
 import { Users } from "@/app/libs/eachUser";
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Chat from "./[id]/chat";
 
 function Message() {
@@ -13,11 +13,14 @@ function Message() {
     refetchOnMount:false
   })
   
-  const getUserIdHandler = (id:string | undefined) =>{
-      setUserId(id)
+  const getUserIdHandler = (id: string | undefined) => {
+    setUserId(id);
+    
+    if (typeof window !== 'undefined') { // Ensure we're on the client side
       const newUrl = `${window.location.pathname}?id=${id}`;
       window.history.pushState({ path: newUrl }, '', newUrl);
-  }
+    }
+  };
 
   return (
     <div className="flex justify-between p-3">
