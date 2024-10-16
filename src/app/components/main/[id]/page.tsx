@@ -38,7 +38,6 @@ function Post() {
         }
       );
       const post = await fetchPost.json();
-      console.log(post);
       setSelectedPost(post);
     };
     fetchData();
@@ -65,7 +64,6 @@ function Post() {
           context:inputValue
         })
       })
-      console.log(createMessage,"this is created message")
     }catch(error){
       throw error
     }

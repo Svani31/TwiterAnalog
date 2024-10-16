@@ -45,7 +45,6 @@ function Register() {
             name:name,
             password:password
           })
-          console.log(signInToUser,"this is ")
           if(signInToUser?.ok){
             route.push("components/main")
           }else{
