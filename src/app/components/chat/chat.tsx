@@ -127,7 +127,7 @@ const UserChat = () => {
     if(bottomRef.current){
       bottomRef.current.scrollIntoView({behavior:"smooth"})
     }
-  },[incommingMessage])
+  },[incommingMessage,messageId])
 
   return (
     <div
