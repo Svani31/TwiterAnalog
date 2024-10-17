@@ -61,7 +61,7 @@ const UserChat = () => {
     if (message?.length < 0) return;
     try {
       const respons = await fetch(
-        `${process.env.NEXT_PUBLIC_API_KEY}/api/message`,
+        `/api/message`,
         {
           method: "POST",
           headers: {
