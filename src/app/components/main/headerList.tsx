@@ -13,10 +13,10 @@ function HeaderList() {
     const [user, setUser] = useState<SessionProps | null>(null);
     const { data: session, status } = useSession<any>();
     const asideMenuText = [
-        { icon: <HomeIcon />, text: "Home", id: 0 },
-        { icon: <NotificationsIcon />, text: "Notifications", id: 1 },
-        { icon: <EmailIcon />, text: "Messages", id: 2 },
-        { icon: <Person2Icon />, text: "Profile", id: 3 },
+        { icon: <HomeIcon />, text: "Home", id: 0,link:"/components/main" },
+        { icon: <NotificationsIcon />, text: "Notifications", id: 1,link:"/components/Notifications" },
+        { icon: <EmailIcon />, text: "Messages", id: 2,link:"/components/Messages" },
+        { icon: <Person2Icon />, text: "Profile", id: 3,link:"/components/Profile" },
       ];
       const route = useRouter();
 
@@ -51,7 +51,7 @@ function HeaderList() {
               className=" hover:bg-gray-600 w-fit p-2 rounded-3xl cursor-pointer flex"
               key={textEl.id}
             >
-              <Link href={`${textEl.text}`}>
+              <Link href={textEl.link}>
               <span className="mr-4">{textEl.icon}</span> {textEl.text}
               </Link>
             </li>

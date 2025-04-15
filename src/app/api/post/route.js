@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "/src/app/utils/prismadb";
 import {pusherServer} from "@/app/utils/pusher"
+
 export async function POST(req) {
   try {
     const { content, userId,image } = await req.json();

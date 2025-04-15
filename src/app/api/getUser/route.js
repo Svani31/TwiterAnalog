@@ -11,7 +11,12 @@ export async function POST(body){
                 id:userId
             },
             include:{
-                post:true
+                post:{
+                    include:{
+                        comment:true,
+                        like:true
+                    }
+                }
             }
         })
         return NextResponse.json(findUser)

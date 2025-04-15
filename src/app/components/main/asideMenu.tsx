@@ -34,7 +34,7 @@ function AsideMenu() {
   };
 
   return (
-    <div className="m-4 flex flex-col fixed md:w-[200px] xl:w-[300px]">
+    <div className="m-4 flex flex-col fixed md:w-[200px] xl:w-[300px] sm:hidden md:block">
       <div className="pt-2 pb-2 pl-5 pr-5 rounded-2xl bg-xbackground">
         <SearchIcon className="bg-transparent" />
         <input
@@ -43,7 +43,7 @@ function AsideMenu() {
           placeholder="Search"
         />
       </div>
-      <div className="flex justify-center text-center item-center mt-10 flex-col bg-xbackground p-2 rounded-2xl">
+      <div className="flex justify-center text-center item-center mt-10 flex-col bg-xbackground p-2 rounded-2xl sm:hidden md:block">
         <h1 className="text-start font-bold p-1 bg-transparent">
           Who to follow
         </h1>
@@ -67,7 +67,7 @@ function AsideMenu() {
               />
               <Button
                 text="Follow"
-                style={"bg-white text-black text-s  p-1 rounded-2xl md:hidden lg:block"}
+                style={"bg-white text-black text-s  p-1 rounded-2xl md:hidden lg:hidden xl:block "}
               />
             </div>
           );
